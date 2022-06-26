@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - 3036:3036
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=1234
+      - MYSQL_USER=admin
+      - MYSQL_DATABASE=bender
+    volumes:
+      - /home/javier/docker/prueba_sql/data:/var/lib/mysql
+    networks:
+      lan:
+        ipv4_address: 192.168.0.85
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: admindb
+    ports:
+      - 8087:80
+    restart: always
+    environment:
+     # - MYSQL_ROOT_PASSWORD=mypass
+      - PMA_HOST=db
+     # - PMA_USER=root
+     # - PMA_PASSWORD=pass
+    depends_on:
+      - db
+    networks:
+      lan:
+        ipv4_address: 192.168.0.70
+
+networks:
+  lan:
+    driver: macvlan
+    driver_opts:
+      parent: enp1s0
+    ipam:
+      config:
+        - subnet: "192.168.0.0/24"
+          gateway: "192.168.0.1"
