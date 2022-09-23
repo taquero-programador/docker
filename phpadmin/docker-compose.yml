@@ -1,7 +1,6 @@
 version: '3.1'
 
 services:
-
   db:
     image: mariadb
     container_name: mariadb
@@ -36,6 +35,7 @@ services:
       lan:
         ipv4_address: 192.168.0.70
 
+# crea una macvlan usando la puerta de enlace para asignarle una ip a cada container.
 networks:
   lan:
     driver: macvlan
