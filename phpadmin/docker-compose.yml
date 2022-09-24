@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.7'
 
 services:
   db:
@@ -8,12 +8,13 @@ services:
       - 3036:3036
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=1234
-      - MYSQL_USER=admin
-      - MYSQL_DATABASE=bender
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASS}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_DATABASE=${DATABASE_NAME}
     volumes:
-      - /home/javier/docker/prueba_sql/data:/var/lib/mysql
+      - ./init/:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/mysql
     networks:
       lan:
         ipv4_address: 192.168.0.85
@@ -26,7 +27,7 @@ services:
     restart: always
     environment:
      # - MYSQL_ROOT_PASSWORD=mypass
-      - PMA_HOST=db
+      - PMA_HOST=${DB_HOST}
      # - PMA_USER=root
      # - PMA_PASSWORD=pass
     depends_on:
@@ -35,7 +36,7 @@ services:
       lan:
         ipv4_address: 192.168.0.70
 
-# crea una macvlan usando la puerta de enlace para asignarle una ip a cada container.
+# solo como referencía de como crear una macvlan desde compose.
 networks:
   lan:
     driver: macvlan
