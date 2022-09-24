@@ -58,7 +58,7 @@ docker compose convert
 ```
 Las variables de entorno del shell tienen prioridad sobre los archivos `.env`.  
 
-El archivo se puede colocar en otro directorio diferente al de compose, para mandarlo llamar se usa `env_file:  - ./path/.env`, el archivo tambie puede cambiar de nombre; `.env.test, .env.prod`.
+El archivo se puede colocar en otro directorio diferente al de compose, para mandarlo llamar se usa `env_file:  - ./path/.env`, el archivo tambien puede cambiar de nombre; `.env.test, .env.prod`.
 ```yml
 # quitar enviroment y los valores debajo
 # despues de image
