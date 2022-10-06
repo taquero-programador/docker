@@ -77,6 +77,24 @@ Dentro del archivo añadir las reglas de creación y permisos de usuario.
 CREATE DATABASE IF NOT EXISTS `name_databse`;
 GRANT ALL ON `name_databse`.* TO 'name_user'@'%';
 ```
+Caso adicional para crear user, db y asignarle permisos.
+```bash
+# crear password para mysql
+mysqladmin --user=root --password "pass"
+# phpmyadmin no soporta el inicio con root, crear un nuevo user
+CREATE USER 'phpmyadmin'@'localhost' IDENTIFIED BY 'password';
+# permisos de super admin (acceso general)
+GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost' WITH GRANT OPTION;
+
+# crear DB y usuario con permisos root solo para esa DB
+CREATE DATABASE 'docker_test';
+# user para esa DB
+CREATE USER 'userdockertest'@'localhost' IDENTIFIED BY 'passuserdocker';
+# permiso root solo para esa DB
+GRANT ALL ON 'docker_test'.* TO 'userdockertest'@'localhost' IDENTIFIED BY 'passuserdocker' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EXIT;
+```
 En volumes añadir los siguiente:
 ```yml
 volumes:
