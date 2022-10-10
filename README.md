@@ -1,5 +1,7 @@
+## Docker
 ### Crear una macvlan.
-Permite crear un puente a la puerta de enlace, y asignar a cada container una ip desde el router.  
+Permite crear un puente a la puerta de enlace, y asignar a cada container una ip desde el router.
+
 Desde docker
 ```bash
 docker network create -d macvlan \
@@ -56,7 +58,7 @@ sudo apt install docker-compose-plugin
 # validar el resultado sin construir el container
 docker compose convert
 ```
-Las variables de entorno del shell tienen prioridad sobre los archivos `.env`.  
+Las variables de entorno del shell tienen prioridad sobre los archivos `.env`.
 
 El archivo se puede colocar en otro directorio diferente al de compose, para mandarlo llamar se usa `env_file:  - ./path/.env`, el archivo tambien puede cambiar de nombre; `.env.test, .env.prod`.
 ```yml
