@@ -64,6 +64,14 @@ docker compose convert
 ```
 Las variables de entorno del shell tienen prioridad sobre los archivos `.env`.
 
+Ver los logs es un contenedor en ejecución.
+```bash
+# usando docker. el comando se puede ejecutar desde cualquier lugar/directorio.
+docker logs nombre_container
+# usando el plugin. el comando se ejecuta en el directorio del proyecto
+docker compose logs
+```
+
 El archivo se puede colocar en otro directorio diferente al de compose, para mandarlo llamar se usa `env_file:  - ./path/.env`, el archivo tambien puede cambiar de nombre; `.env.test, .env.prod`.
 ```yml
 # quitar enviroment y los valores debajo
