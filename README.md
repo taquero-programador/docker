@@ -1,5 +1,6 @@
 ## Docker
-### Crear una macvlan.
+
+### Crear una macvlan
 Permite crear un puente a la puerta de enlace, y asignar a cada container una ip desde el router.
 
 Desde docker
@@ -9,6 +10,7 @@ docker network create -d macvlan \
 --gatewaye=192.168.0.1 \
 -o parent=driver_equipo nombre_red
 ```
+
 En cada archivo compose se añade así:
 ```yml
 networks:
@@ -19,6 +21,7 @@ networks:
   nombre_red:
     external: true
 ```
+
 Crear directamete desde el compose.
 ```yml
 # asignar a cada container una ip
@@ -37,10 +40,11 @@ networks:
         - gatewaye: "192.168.0.1"
 ```
 
-### Crear una red docker para que todos los container se conecten y se puedan ver, usando el nombre de servicio o el container_name.
+### Crear una red docker para que todos los container se conecten y se puedan ver, usando el nombre de servicio o el container_name
 ```bash
 docker network create my_net
 ```
+
 Añadir al final de cada archivo compose.
 ```yml
 networks:
@@ -50,7 +54,7 @@ networks:
 ```
 Ahora se pueden comunicar usando el nombre de servicio y en la misma red.
 
-### Variables de entorno.
+### Variables de entorno
 Se puede crear un archivo `.env` en el mismo lugar donde esta el archivo compose, en cada variable de entorno de compose el valor sera ${VARIABLE}.
 ```bash
 # insatalar el docker compose plugin
@@ -69,16 +73,18 @@ env_file:
 ```
 Por cada servicio debe existir un archivo `.env`.
 
-### Crear multiple base de datos al levantar un container.
+### Crear multiple base de datos al levantar un container
 Crear un directorio en la raíz del proyecto junto a compose, dentro un archivo `.sql`.
 ```bash
 mdkir init && touch init/01.sql
 ```
+
 Dentro del archivo añadir las reglas de creación y permisos de usuario.
 ```sql
 CREATE DATABASE IF NOT EXISTS `name_databse`;
 GRANT ALL ON `name_databse`.* TO 'name_user'@'%';
 ```
+
 Caso adicional para crear user, db y asignarle permisos.
 ```bash
 # crear password para mysql
@@ -97,11 +103,13 @@ GRANT ALL ON 'docker_test'.* TO 'userdockertest'@'localhost' IDENTIFIED BY 'pass
 FLUSH PRIVILEGES;
 EXIT;
 ```
+
 En volumes añadir los siguiente:
 ```yml
 volumes:
   - ./init/:/docker-entrypoint-initdb.d
 ```
+
 Al levantar el archivo compose, se crea la base definida por defecto y las que estan dentro del archivo `.sql`.
 ```bash
 # o acceder al container y ejecutar el proceso manualmente
@@ -109,7 +117,7 @@ docker exec -it mariadb bash
 mysql -p
 ```
 
-### Validar que un container se puede comunicar con otro.
+### Validar que un container se puede comunicar con otro
 ```bash
 docker exec -it container1 ping container2
 ```
