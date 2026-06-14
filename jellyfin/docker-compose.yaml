@@ -1,0 +1,48 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Mexico_City
+      # - JELLYFIN_PublishedServerUrl=http://192.168.0.93
+    volumes:
+      - /home/cthulhu/docker/jellyfin:/config
+      #- /home/cthulhu/Videos:/data/tvshows
+      #- /path/to/movies:/data/movies
+      - /mnt/prueba:/data/music
+    ports:
+      - 8096:8096
+      - 7359:7359/udp #optional
+    restart: unless-stopped
+    networks:
+      - red_local
+
+    # --- Healthcheck ajustado ---
+    # start_period: tiempo de gracia al iniciar donde un fallo NO cuenta
+    #               para marcar el contenedor como "unhealthy". Te da
+    #               margen mientras Jellyfin escanea /mnt/prueba la
+    #               primera vez.
+    # retries: número de fallos consecutivos antes de marcar unhealthy
+    #          (default de la imagen suele ser 3, aquí lo subimos a 5)
+    healthcheck:
+      test: curl -f http://localhost:8096/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+    # --- Límite de logs ---
+    # Evita que los logs crezcan sin control si Jellyfin entra en un
+    # bucle de errores (por ejemplo, reintentando escanear /data/music
+    # con permisos incorrectos).
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  red_local:
+    driver: bridge
