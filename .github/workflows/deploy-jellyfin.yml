@@ -37,4 +37,4 @@ jobs:
       - name: Verify network and status
         run: |
           docker compose ps
-          docker networks ls
+          docker network ls
