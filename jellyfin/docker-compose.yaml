@@ -3,15 +3,15 @@ services:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID}
+      - PGID=${PGID}
       - TZ=America/Mexico_City
       # - JELLYFIN_PublishedServerUrl=http://192.168.0.93
     volumes:
-      - /home/cthulhu/docker/jellyfin:/config
-      #- /home/cthulhu/Videos:/data/tvshows
-      #- /path/to/movies:/data/movies
-      - /mnt/prueba:/data/music
+      - .:/config
+      #- ${path_music}:/data/music:ro
+      - ${path_video}:/data/video:ro
+      #- /imagenes:/data/images:ro
     ports:
       - 8096:8096
       - 7359:7359/udp #optional
@@ -45,4 +45,5 @@ services:
 
 networks:
   red_local:
+    name: my_network
     driver: bridge
