@@ -23,15 +23,18 @@ jobs:
       PATH_VIDEO: ./media/video
 
     steps:
-      - uses: actions/checkout@main
+      - name: Checkout
+      - uses: actions/checkout@v4
+
       - name: Prepare dirs
         run: |
           mkdir -p config media/video
+
       - name: Verify compose file
         run: |
           docker compose config && docker compose up -d
+
       - name: Verify network and status
         run: |
           docker compose ps
           docker networks ls
-
