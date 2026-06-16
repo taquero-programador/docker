@@ -1,4 +1,4 @@
-name: Testing Jellyfin # name
+name: Test Jellyfin # name
 
 on:
   push:
