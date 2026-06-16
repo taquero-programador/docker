@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/config
       #- ${path_music}:/data/music:ro
-      - ${path_video}:/data/video:ro
+      - ${PATH_VIDEO}:/data/video:ro
       #- /imagenes:/data/images:ro
     ports:
       - 8096:8096
