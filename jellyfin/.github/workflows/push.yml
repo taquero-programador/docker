@@ -20,7 +20,7 @@ jobs:
       PATH_VIDEO: ${{ PATH_VIDEO }}
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@main
       - name: Prepare dirs
         run: |
           cd jellyfin
