@@ -20,7 +20,7 @@ jobs:
       PUID: ${{ vars.PUID }}
       PGUI: ${{ vars.PGID }}
       TZ: America/Mexico_City
-      PATH_MUSIC: ${{ PATH_MUSIC }}
+      PATH_MUSIC: ${{ vars.PATH_MUSIC }}
 
     steps:
       - uses: actions/checkout@main
