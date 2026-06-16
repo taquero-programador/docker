@@ -1,0 +1,37 @@
+name: Test Jellyfin Docker Compose
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'jellyfin/**'
+
+jobs:
+  deploy:
+    name: deploy Jellyfin
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./jellyfin
+
+    env:
+      PUID: ${{ vars.PUID }}
+      PGUI: ${{ vars.PGID }}
+      TZ: America/Mexico_City
+      PATH_MUSIC: ${{ PATH_MUSIC }}
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Prepare dirs
+        run: |
+          mkdir -p config media/{music,video}
+      - name: Verify compose file
+        run: |
+          docker compose config && docker compose up -d
+      - name: Verify network and status
+        run: |
+          docker compose ps
+          docker networks ls
+
