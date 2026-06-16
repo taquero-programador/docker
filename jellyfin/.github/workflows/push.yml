@@ -3,7 +3,7 @@ name: Test Jellyfin Docker Compose
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'jellyfin/**'
 
