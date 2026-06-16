@@ -17,7 +17,6 @@ jobs:
       PGUI: ${{ vars.PGID }}
       TZ: America/Mexico_City
       PATH_MUSIC: ${{ PATH_MUSIC }}
-      PATH_VIDEO: ${{ PATH_VIDEO }}
 
     steps:
       - uses: actions/checkout@main
