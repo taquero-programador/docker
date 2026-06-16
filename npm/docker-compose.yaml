@@ -1,0 +1,55 @@
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.15.1
+    container_name: npm
+    environment:
+      - TZ=America/Mexico_City
+      # Postgres parameters:
+      - DB_POSTGRES_HOST=${DB_POSTGRES_HOST}
+      - DB_POSTGRES_PORT=${DB_POSTGRES_PORT}
+      - DB_POSTGRES_USER=${DB_POSTGRES_USER}
+      - DB_POSTGRES_PASSWORD=${DB_POSTGRES_PASSWORD}
+      - DB_POSTGRES_NAME=${DB_POSTGRES_NAME}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - 80:80 # Public HTTP Port
+      - 443:443 # Public HTTPS Port
+      - 81:81 # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    restart: unless-stopped
+    networks:
+      - hub
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - 53:53 #dns
+      #- 80:80
+      # Default HTTPs Port. FTL will generate a self-signed certificate
+      - 8443:443
+    environment:
+      - TZ=America/Mexico_City
+      - FTLCONF_webserver_api_password=pihole
+      - FTLCONF_dns_listeningMode=ALL
+    volumes:
+      - ./etc-pihole:/etc/pihole
+    networks:
+      - hub
+      #- './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE
+    restart: unless-stopped
+
+networks:
+  hub:
+    external: true
+    name: my_network
