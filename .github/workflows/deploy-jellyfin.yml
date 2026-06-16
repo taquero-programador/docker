@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@main
       - name: Prepare dirs
         run: |
-          mkdir -p config media/{music,video}
+          mkdir -p config media/video
       - name: Verify compose file
         run: |
           docker compose config && docker compose up -d
