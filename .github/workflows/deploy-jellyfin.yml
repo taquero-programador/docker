@@ -1,4 +1,4 @@
-name: Test Jellyfin Docker Compose
+name: Testing Jellyfin Docker Compose
 
 on:
   push:
