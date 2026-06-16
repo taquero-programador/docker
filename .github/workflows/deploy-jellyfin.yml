@@ -17,10 +17,10 @@ jobs:
         working-directory: ./jellyfin
 
     env:
-      PUID: ${{ vars.PUID }}
-      PGID: ${{ vars.PGID }}
+      PUID: 1000
+      PGID: 1000
       TZ: America/Mexico_City
-      PATH_VIDEO: ${{ vars.PATH_VIDEO }}
+      PATH_VIDEO: ./media/video
 
     steps:
       - uses: actions/checkout@main
