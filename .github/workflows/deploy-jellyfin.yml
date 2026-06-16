@@ -18,9 +18,9 @@ jobs:
 
     env:
       PUID: ${{ vars.PUID }}
-      PGUI: ${{ vars.PGID }}
+      PGID: ${{ vars.PGID }}
       TZ: America/Mexico_City
-      PATH_MUSIC: ${{ vars.PATH_MUSIC }}
+      PATH_VIDEO: ${{ vars.PATH_VIDEO }}
 
     steps:
       - uses: actions/checkout@main
