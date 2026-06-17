@@ -1,0 +1,29 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - 53:53/tcp
+      - 53:53/udp #dns
+      - 80:80
+      # Default HTTPs Port. FTL will generate a self-signed certificate
+      - 443:443
+    environment:
+      - TZ=America/Mexico_City
+      - FTLCONF_webserver_api_password=${FTLCONF_webserver_api_password}
+      - FTLCONF_dns_listeningMode=ALL
+    volumes:
+      - ./etc-pihole:/etc/pihole
+    networks:
+      - hub
+      #- './etc-dnsmasq.d:/etc/dnsmasq.d'
+    cap_add:
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE
+    restart: unless-stopped
+
+networks:
+  hub:
+    external: true
+    name: my_network
