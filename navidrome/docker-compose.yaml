@@ -1,0 +1,27 @@
+services:
+  navidrome:
+    container_name: navidrome
+    image: deluan/navidrome:latest
+    environment:
+      - PUID=${PUID}
+      - PGUI=${PGUI}
+      - TZ=${TZ}
+      - ND_LOGLEVEL=${ND_LOGLEVEL}
+      - ND_PORT=${ND_PORT}
+      - ND_LYRICSPRIORITY=${ND_LYRICSPRIORITY}
+      - ND_LASTFM_ENABLED=${ND_LASTFM_ENABLED}
+      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
+      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+    volumes:
+      - ./data:/data
+      - /home/cthulhu/Música/varios:/music:ro
+    ports:
+      - 4533:4533
+    restart: unless-stopped
+    networks:
+      - navidrome
+
+networks:
+  navidrome:
+    external: true
+    name: my_network
