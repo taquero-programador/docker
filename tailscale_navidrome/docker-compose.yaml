@@ -1,0 +1,42 @@
+services:
+  tailscale:
+    container_name: tailscale
+    image: tailscale/tailscale:latest
+    hostname: navidrome
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+      - TS_SERVE_CONFIG=/config/navidrome.json
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - ./tailscale/state:/var/lib/tailscale
+      - ./tailscale/config:/config
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    restart: unless-stopped
+  navidrome:
+    container_name: navidrome
+    image: deluan/navidrome:latest
+    network_mode: "service:tailscale"
+    depends_on:
+      - tailscale
+    environment:
+      - PUID=${PUID}
+      - PGUI=${PGUI}
+      - TZ=${TZ}
+      - ND_LOGLEVEL=${ND_LOGLEVEL}
+      - ND_PORT=${ND_PORT}
+      - ND_LYRICSPRIORITY=${ND_LYRICSPRIORITY}
+      - ND_LASTFM_ENABLED=${ND_LASTFM_ENABLED}
+      - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
+      - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
+      - ND_UILOGINBACKGROUNDURL=abcd
+      - ND_SCANINTERVAL=1h
+      - ND_LOGLEVEL=info
+    restart: unless-stopped
+    volumes:
+      - ./navidrome/data:/data
+      - ${PATH_MUSIC}:/music:ro
