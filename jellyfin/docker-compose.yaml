@@ -5,12 +5,13 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=America/Mexico_City
+      #- TZ=America/Monterrey
       # - JELLYFIN_PublishedServerUrl=http://192.168.0.93
     volumes:
       - .:/config
       - ./musica:/data/music:ro
       - ${PATH_VIDEO}:/data/video:ro
+      - /etc/localtime:/etc/localtime
       #- /imagenes:/data/images:ro
     ports:
       - 8096:8096
@@ -45,5 +46,6 @@ services:
 
 networks:
   red_local:
+    external: true
     name: my_network
-    driver: bridge
+    #driver: bridge

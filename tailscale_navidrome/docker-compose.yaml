@@ -11,6 +11,7 @@ services:
     volumes:
       - ./tailscale/state:/var/lib/tailscale
       - ./tailscale/config:/config
+      - /etc/localtime:/etc/localtime
     devices:
       - /dev/net/tun:/dev/net/tun
     cap_add:
@@ -26,7 +27,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGUI=${PGUI}
-      - TZ=${TZ}
+      #- TZ=${TZ}
       - ND_LOGLEVEL=${ND_LOGLEVEL}
       - ND_PORT=${ND_PORT}
       - ND_LYRICSPRIORITY=${ND_LYRICSPRIORITY}
@@ -40,3 +41,4 @@ services:
     volumes:
       - ./navidrome/data:/data
       - ${PATH_MUSIC}:/music:ro
+      - /etc/localtime:/etc/localtime

@@ -3,7 +3,7 @@ services:
     image: jc21/nginx-proxy-manager:2.15.1
     container_name: npm
     environment:
-      - TZ=America/Mexico_City
+      #- TZ=America/Mexico_City
       # Postgres parameters:
       - DB_POSTGRES_HOST=${DB_POSTGRES_HOST}
       - DB_POSTGRES_PORT=${DB_POSTGRES_PORT}
@@ -15,6 +15,7 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+      - /etc/localtime:/etc/localtime
     ports:
       # These ports are in format <host-port>:<container-port>
       - 80:80 # Public HTTP Port
@@ -35,11 +36,12 @@ services:
       # Default HTTPs Port. FTL will generate a self-signed certificate
       - 8443:443
     environment:
-      - TZ=America/Mexico_City
+      #- TZ=America/Monterrey
       - FTLCONF_webserver_api_password=pihole
       - FTLCONF_dns_listeningMode=ALL
     volumes:
       - ./etc-pihole:/etc/pihole
+      - /etc/localtime:/etc/localtime
     networks:
       - hub
       #- './etc-dnsmasq.d:/etc/dnsmasq.d'
