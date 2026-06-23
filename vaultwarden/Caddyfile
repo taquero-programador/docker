@@ -1,0 +1,6 @@
+vaultwarden.icefish-celsius.ts.net {
+	reverse_proxy 127.0.0.1:8080 {
+		header_up X-Forwarded-Proto https
+		header_up X-Real-IP {remote_host}
+		#	reverse_proxy /notifications/hub 127.0.0.1:3012
+	}
