@@ -32,7 +32,7 @@ services:
       - DOMAIN=https://vaultwarden.icefish-celsius.ts.net
       - ROCKER_ADDRESS=0.0.0.0
       - ROCKET_PORT=8080
-      #- ROCKET_PROXY_PROTO_HEADER_NAME=X-Forwarded-Proto  # ← nuevo
+      #- ROCKET_PROXY_PROTO_HEADER_NAME=X-Forwarded-Proto
       #- IP_HEADER=X-Real-IP
     volumes:
       - ./vaultwarden/vw-data:/data/
