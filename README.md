@@ -1,5 +1,42 @@
 ## Docker
 
+### Crear y usar una red existente
+`docker network create --driver bridge {network_name}`
+
+Desde compose usar la red existente:
+```yaml
+networks:
+  hub: # este solo es un alias y también debe estar declarado arriba
+    external: true
+    name: network_name # nombre real de la red
+```
+
+O hacer que docker la cree directamente al levantar el compose:
+```yaml
+networks:
+  hub: # alias
+    name: network_name
+    driver: bridge
+```
+
+### Levantar contenedor Docker+Tailscale (HTTPS+MagicDNS)
+- Requiere obtener una APIkey y un `tag:container` (elimina la expiración de autenticación).
+- Archivo `config/{servicio}.json` para hacer el reverse proxy con Tailscale.
+
+Archivo de ejemplo en `tailscale_navidrome/docker-compose.yaml`
+
+### Usar certificados con Caddy
+Para servicios que no aceptan HTTPS plano y requieren autenticación por certificado.
+- Caddy requiere acceso al sock de Tailscale
+- `Caddyfile` para hacer reverse proxy
+
+Pasar el formato correcto a caddy:
+```sh
+docker exec caddy_vault caddy fmt --overwrite /etc/caddy/Caddyfile
+# hacer un reaload
+docker exec caddy_vault caddy reload --config /etc/caddy/Caddyfile
+```
+
 ### Crear una macvlan
 Permite crear un puente a la puerta de enlace, y asignar a cada container una ip desde el router.
 
@@ -39,20 +76,6 @@ networks:
         - subnet: "192.168.0.0/24"
         - gatewaye: "192.168.0.1"
 ```
-
-### Crear una red docker para que todos los container se conecten y se puedan ver, usando el nombre de servicio o el container_name
-```bash
-docker network create my_net
-```
-
-Añadir al final de cada archivo compose.
-```yml
-networks:
-  default:
-    name: my_net
-    external: true
-```
-Ahora se pueden comunicar usando el nombre de servicio y en la misma red.
 
 ### Variables de entorno
 Se puede crear un archivo `.env` en el mismo lugar donde esta el archivo compose, en cada variable de entorno de compose el valor sera ${VARIABLE}.
