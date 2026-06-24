@@ -34,7 +34,7 @@ services:
       - ND_LASTFM_ENABLED=${ND_LASTFM_ENABLED}
       - ND_LASTFM_APIKEY=${ND_LASTFM_APIKEY}
       - ND_LASTFM_SECRET=${ND_LASTFM_SECRET}
-      - ND_UILOGINBACKGROUNDURL=abcd
+      #- ND_UILOGINBACKGROUNDURL=abcd
       - ND_SCANINTERVAL=1h
       - ND_LOGLEVEL=info
     restart: unless-stopped

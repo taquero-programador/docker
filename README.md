@@ -1,5 +1,21 @@
 ## Docker
 
+### Crear un token y salt para navidrome API Homepage
+```sh
+SALT=$(openssl rand -hex 8)
+PASSWORD="pass"
+
+TOKEN=$(echo -n "${PASSWORD}${SALT}" | md5sum | cut -d' ' -f1)
+
+echo $SALT
+echo $TOKEN
+```
+
+Probar un requests de la url:
+`http://your-server/rest/ping.view?u=joe&t=26719a1196d2a940705a59634eb18eab&s=c19b2d&v=1.12.0&c=myapp`
+
+Debe retornar un status `ok`.
+
 ### Crear y usar una red existente
 `docker network create --driver bridge {network_name}`
 
