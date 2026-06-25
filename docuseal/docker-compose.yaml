@@ -1,0 +1,48 @@
+services:
+  tailscale:
+    container_name: tailscale_doc
+    image: tailscale/tailscale:latest
+    hostname: docuseal
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_EXTRA_ARGS=--advertise-tags=tag:container
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - ./tailscale/state:/var/lib/tailscale
+      - ./tailscale/config:/config
+      - /etc/localtime:/etc/localtime
+      - ./tailscale/tmp:/tmp
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    restart: unless-stopped
+  docuseal:
+    container_name: docuseal
+    image: docuseal/docuseal:latest
+    network_mode: "service:tailscale"
+    depends_on:
+      - tailscale
+    #ports:
+      #- 3000:3000
+    #environment:
+      #- FORCE_SSL=${HOST}
+      #- DATABASE_URL=postgresql://postgres:postgres@postgres:5432/docuseal
+    volumes:
+      - ./docuseal:/data/docuseal
+
+  caddy:
+    container_name: caddy_doc
+    image: caddy:latest
+    network_mode: "service:tailscale"
+    user: root
+    depends_on:
+      - tailscale
+      - docuseal
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+      - ./tailscale/tmp:/var/run/tailscale
+    restart: unless-stopped
