@@ -1,5 +1,11 @@
 ## Docker
 
+### Crear token para Vaultwarden
+
+    echo -n 'password' | argon2 "$(openssl rand -base64 32)" -e -id -k 19456 -t 2 -p 1
+
+Ese `token` siempre lo va a pedir en la página del admin.
+
 ### Crear un token y salt para navidrome API Homepage
 ```sh
 SALT=$(openssl rand -hex 8)
